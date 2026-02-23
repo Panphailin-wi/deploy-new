@@ -14,8 +14,11 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
 
-RUN chmod -R 775 storage bootstrap/cache
+RUN mkdir -p storage/logs storage/framework/cache/data storage/framework/sessions storage/framework/views bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
+
+RUN php artisan config:clear && php artisan view:clear && php artisan route:clear
 
 EXPOSE ${PORT:-8080}
 
-CMD php artisan migrate --force && php -S 0.0.0.0:${PORT:-8080} -t public
+CMD php artisan migrate --force && php artisan config:cache && php -S 0.0.0.0:${PORT:-8080} -t public
