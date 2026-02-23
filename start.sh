@@ -15,6 +15,10 @@ php artisan config:clear
 # Run migrations
 php artisan migrate --force || echo "Migration failed, continuing..."
 
+# Clear log and tail it in background so errors show in deploy logs
+> storage/logs/laravel.log
+tail -f storage/logs/laravel.log &
+
 # Start server
 echo "=== Starting PHP Server on port ${PORT:-8080} ==="
 php -S 0.0.0.0:${PORT:-8080} -t public
