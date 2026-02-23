@@ -130,9 +130,9 @@
         <div class="flex items-center gap-6">
           <div class="flex items-center gap-2">
              <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">
-                {{ substr(Auth::user()->name, 0, 1) }}
+                {{ substr(optional(Auth::user())->name ?? 'G', 0, 1) }}
              </div>
-             <span class="text-slate-700 font-medium">{{ Auth::user()->name }}</span>
+             <span class="text-slate-700 font-medium">{{ optional(Auth::user())->name ?? 'Guest' }}</span>
           </div>
           <form method="POST" action="{{ route('logout') }}">
             @csrf
